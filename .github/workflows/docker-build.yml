@@ -1,0 +1,25 @@
+# Nombre del flujo de trabajo
+name: CI - Verificar Construcción de Docker
+
+# Define cuándo se ejecutará
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Define los trabajos a ejecutar
+jobs:
+  build-docker-image:
+    # Usar una máquina virtual de Ubuntu
+    runs-on: ubuntu-latest
+
+    # Pasos del trabajo
+    steps:
+      # 1. Clonar tu repositorio en la máquina virtual
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # 2. Intentar construir la imagen de Docker para verificar que el Dockerfile es correcto
+      - name: Construir la imagen Docker
+        run: docker build . --file Dockerfile --tag mi-app-django:$(date +%s)
